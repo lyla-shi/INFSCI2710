@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+{#    <meta name="csrf-token" content="{{ csrf_token() }}">#}
+
+    <title>Shop Homepage - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/shop-homepage.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/login.css') }}" rel="stylesheet">
+
+    <style>
+        button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color{
+            border-color: darkgray;
+            background-color: darkgray;
+        }
+
+        button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color:hover{
+            border-color: #a5d458;
+            background-color: #a5d458;
+        }
+        #formLogin > a{
+            color: gray;
+        }
+        #formLogin > a:hover{
+            color: #a5d458;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navigation -->
+<input id="cID" type="hidden" id="cID" value="{{ cID }}"/>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">GreenEat</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="welcome">
+                    <p id="hello">{{ hello }}</p>
+                    <p id="firstName">{{ name }}</p>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link isActive" href="#">Home
+                        <!--<span class="sr-only">(current)</span>-->
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#signIn">{{ loginout }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link notActive" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Page Content -->
+<div id="signIn" class="text-center modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form id="formLogin" class="formLogin" method="post">
+                    <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
+                    <input type="hidden" name="post" class="form-control" value="logInOut"/>
+
+                    <label for="inputEmail" class="sr-only">Email:</label>
+                    <input type="email" id="inputEmail" name="userEmail" class="form-control" placeholder="Email address" required autofocus/>
+
+                    <label for="inputPassword" class="sr-only">Password:</label>
+                    <input type="password" id="inputPassword" name="userPwd" class="form-control" placeholder="Password" required/>
+
+                    <label for="buttonLogin" class="sr-only">Login:</label>
+                    <button id="buttonLogin" class="btn btn-lg btn-primary btn-block btn-color" value="login">login</button>
+                    <a href="{{ url_for('register') }}">No account? Sign up here</a>
+                    <p class="mt-5 mb-3 text-muted">@greeneat</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <form id="formSearch" method="get">
+
+                <div class="input-group mb-3 mt-4">
+                    <label for="selectRecord" class="sr-only">SelectRecord:</label>
+                    <input type="text" id="selectRecord" name="selectRecord" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1"  required autofocus/>
+
+                    <div class="input-group-prepend">
+                        <label for="buttonSearch" class="sr-only">Search:</label>
+                        <button id="buttonSearch" name="buttonSearch" class="btn btn-outline-secondary search" value="search">Search</button>
+                    </div>
+                </div>
+
+{#                <label for="checkBoxRegion" class="sr-only">Region:</label>#}
+{#                <input id="checkBoxRegion" name="checkBoxRegion" type="checkbox" value="off"> <span class="checkboxFontSize">Region</span>&nbsp;&nbsp;&nbsp;#}
+{##}
+{#                <label for="checkBoxProductName" class="sr-only">ProductName:</label>#}
+{#                <input id="checkBoxProductName" name="checkBoxProductName" type="checkbox"value="off"> <span class="checkboxFontSize">Product Name</span> &nbsp;&nbsp;&nbsp;#}
+
+{#                <label for="checkBoxAddress" class="sr-only">Address:</label>#}
+{#                <input id="checkBoxAddress" name="checkBoxStoreName" type="checkbox" value="off"> <span class="checkboxFontSize">Address</span> &nbsp;&nbsp;&nbsp;#}
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-2">
+
+            <form class="list-group">
+                <button name="category" href="#" class="list-group-item" type="button" value="Clothes">Clothes</button>
+                <button name="category" href="#" class="list-group-item" type="button" value="Shoes">Shoes</button>
+                <button name="category" href="#" class="list-group-item" type="button" value="Beverage">Beverage</button>
+            </form>
+
+        </div>
+        <!-- /.col-lg-3 -->
+
+        <div class="col-5 mt-4">
+
+            <div id="productDisplay" class="row">
+
+            </div>
+            <div class="row">
+                <!--pagination-->
+                <ul id="pagination" class="pagination" style="background-color: #a5d458"> </ul>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.col-lg-8 -->
+
+
+
+
+        {#      the cart        #}
+        <form class="col-5 mt-4" id="cart" method="post">
+            <input type="hidden" name="post" class="form-control" value="checkout"/>
+            <!--display the goods you added-->
+            <div id="addedItem">
+            </div>
+
+            <!--buy the good, laid at the bottom-->
+            <div class="check">
+                <p id="total"></p>
+                <button id="placeOrder">Place Order</button>
+            </div>
+        </form>
+
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; GreenEat</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='js/jquery/jquery.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery/jquery.twbsPagination.js') }}" type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="{{ url_for('static', filename='js/shop-homepage.js') }}" type="text/javascript"></script>
+
+</body>
+
+</html>
